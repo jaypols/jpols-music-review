@@ -1,0 +1,135 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+    <div class="container">
+        <a class="navbar-brand">Jayson's Music Review</a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
+            &#9776;
+        </button>
+        <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+            <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+                    <li><h1 class="user-info text-center">Admin Access</h1></li>
+                <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+                <li class="dropdown order-1">
+                    <button (click)="logout()" type="button" class="btn logb btn-outline-secondary">Log Out<span class="caret"></span></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<h1 class="heading-1"><span>Users</span></h1>
+
+<br>
+
+<div class="outtable">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Admin Access</th>
+            <th scope="col">Activation</th>
+            <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let usr of userService.users">
+            <tr>
+            <td>{{ usr.username }}</td>
+            <td>{{ usr.email }}</td>
+            <td>{{ usr.admin }}</td>
+            <td>{{ usr.activate }}</td>
+            <td>
+                <button (click)="grantPriv(usr._id)" class="btn btn-outline-secondary song-more">Change Access</button>
+                <button (click)="actdeact(usr._id)" class="btn btn-outline-secondary song-more">(De)activate</button>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+
+<h1 class="heading-1"><span>Songs</span></h1> 
+
+<br>
+<br>
+
+<div class="outtable">
+    <table class="table table-striped table-dark" [mfData]="songService.songs" #mf="mfDataTable">
+        <thead>
+            <tr>
+            <th scope="col">Song Title</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Album</th>
+            <th scope="col">Visible</th>
+            <th scope="col">Copyright Claim</th>
+            <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let sng of mf.data">
+            <tr>
+            <td>{{ sng.songTitle }}</td>
+            <td>{{ sng.artist }}</td>
+            <td>{{ sng.album }}</td>
+            <td>{{ sng.visibility }}</td>
+            <td>{{ sng.copyright }}</td>
+            <td>
+                <button (click)="changeVis(sng._id)" class="btn btn-outline-secondary song-more">Change Visibility</button>
+                <button (click)="clearCopyright(sng._id)" class="btn btn-outline-secondary song-more">Clear Copyright</button>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+<h1 class="heading-1"><span>Update Violations</span></h1> 
+<p class="text-center">In order to utilize the DMCA take down procedure, the following is the workflow:</p>
+<p class="text-center">1. From the form below select the type of violation</p>
+<p class="text-center">2. From the form below select the song</p>
+<p class="text-center">3. From the form below select whether you would like to hide the song from users</p>
+<p class="text-center">4. From the form below input the date that the violation took place</p>
+<p class="text-center">In order to clear all violations on a song, scroll above to the song 
+    list and click on the "Clear Copyright" button for the song you wish to clear.
+</p>
+
+
+<br>
+<div class="block-center">
+        <form class="form fw text-center" role="form">
+        <p id="result7" class="output text-center"></p>
+        <br>
+        <div class="form-group">
+            <select id="select" [(ngModel)]="selectedViolation" name="violation" class="form-control form-control-sm">
+                <option selected>Select Violation</option>
+                <option>Take Down Request</option>
+                <option>Infringement Notice</option>
+                <option>Dispute Claim</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select id="songSelect" [(ngModel)]="selectedSong" name="song" class="form-control form-control-sm">
+                <option value="" selected>Select Song</option>
+                <option *ngFor="let sng of songService.songs">{{sng.songTitle}}</option>
+            </select>
+        </div>
+        <div class="form-check form-check-inline">
+            <input [(ngModel)]="isChecked" name="hideSong" id="hideSong" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="hideSong">Hide Song</label>
+        </div>
+        <div class="form-group">
+            <input name="dateInput" id="dateInput" placeholder="Date" class="form-control form-control-sm" type="text" required="">
+        </div>
+        <div class="form-group">
+            <button (click)="changeCopyright(selectedSong, selectedViolation, isChecked)" type="submit" class="btn btn-primary bcklog btn-block">Submit</button>
+        </div>
+        </form>
+    </div>

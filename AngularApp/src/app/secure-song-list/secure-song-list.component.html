@@ -1,0 +1,143 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+    <div class="container">
+        <a class="navbar-brand">Jayson's Music Reviews</a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
+            &#9776;
+        </button>
+        <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+            <ul class="nav navbar-nav">
+                <li class="nav-item"><a href="/api/secure" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/api/secure/song" class="nav-link">Songs</a></li>
+            </ul>
+            <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+                <li>
+                    <form #searchForm='ngForm' class="form-inline my-2 my-lg-0" (ngSubmit)='submitSearch($event, searchForm)'>
+                        <input class="form-control mr-sm-2" [(ngModel)]='searchQuery' name="q" type="text" placeholder="Search Song" aria-label="Search">
+                        <button onclick="location.href='/api/secure/song#Res2'" class="btn btn-outline-secondary" type="submit">Search</button>
+                    </form>
+                </li>
+                <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+                <li class="dropdown order-1">
+                    <button (click)="logout()" type="button" class="btn logb btn-outline-secondary">Log Out<span class="caret"></span></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<h1 class="heading-1"><span>Songs</span></h1> 
+
+<div class="text-center"><button onclick="location.href='/api/secure/song#contact'" class="btn btn-outline-secondary blackHov" type="submit">Add Song</button></div>
+
+
+<div class="outtable">
+    <table class="table table-striped table-dark" [mfData]="songService.topSongs" #mf="mfDataTable" mfRowsOnPage="10" mfSortBy= "avgRating" mfSortOrder="desc">
+        <thead>
+            <tr>
+            <th scope="col">Song Title</th>
+            <th scope="col">Artist</th>
+            <th scope="col"><mfDefaultSorter by="avgRating">Average Rating</mfDefaultSorter></th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let sng of mf.data">
+            <tr *ngIf="sng.visibility == true">
+            <td>{{ sng.songTitle }}</td>
+            <td>{{ sng.artist }}</td>
+            <td>{{ sng.avgRating }}/5</td>
+            <td><a href="/api/secure/{{sng._id}}"><button class="btn btn-outline-secondary song-more">Learn More</button></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br id="Res2">
+<br>
+<br>
+    
+<h1 class="heading-1"><span>Search Results</span></h1> 
+
+<br>
+
+<div class="outtable">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+            <th scope="col">Song Title</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Average Rating</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let snng of songService.matchedSongs">
+            <tr>
+            <td>{{ snng.songTitle }}</td>
+            <td>{{ snng.artist }}</td>
+            <td>{{ snng.avgRating }}/5</td>
+            <td><a href="/api/secure/{{snng._id}}"><button class="btn btn-outline-secondary song-more">Learn More</button></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1 class="heading-1"><span>Add Songs</span></h1> 
+
+<br>
+
+<div id="add-song-form" class="container">  
+    <form #songForm="ngForm" id="contact" (ngSubmit)="onSubmitSong(songForm)">
+          <h3 class="bt text-center">Add Song Form</h3>
+          <h4 id="title-missing" class="res-text text-center">*Please Enter a Song Title*</h4>
+          <h4 id="artist-missing" class="res-text text-center">*Please Enter an Artist*</h4>
+          <br>
+          <input type="number" ngModel name="objectID" style="display: none;">
+          <fieldset>
+            <input placeholder="Song Title" ngModel type="text" name="songTitle" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Artist" ngModel type="text" name="artist" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Album" ngModel type="text" name="album">
+          </fieldset>
+          <fieldset>
+            <input placeholder="Year" ngModel type="number" name="year">
+          </fieldset>
+          <fieldset>
+            <input placeholder="Genre" ngModel type="text" name="genre">
+          </fieldset>
+          <fieldset>
+            <textarea placeholder="Comment" ngModel name="comment" tabindex="5"></textarea>
+          </fieldset>
+          <h3 class="bt text-center">Add Review (Optional)</h3>
+          <br>
+          <h4 id="username-missing" class="res-text text-center">*Please Enter a Username*</h4>
+          <h4 id="rating-wrong" class="res-text text-center">*Rating Must be 0-5*</h4>
+          <fieldset>
+            <input placeholder="Rating 0-5 (Optional)" ngModel type="number" name="ratingForObject" min="1" max="5">
+          </fieldset>
+          <fieldset>
+            <input placeholder="Username" ngModel type="text" name="submittedBy" required>
+          </fieldset>
+          <fieldset>
+            <textarea placeholder="Description" ngModel name="description" tabindex="5"></textarea>
+          </fieldset>
+          <fieldset>
+            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+          </fieldset>
+    </form>
+</div>
+
+    <br>
+

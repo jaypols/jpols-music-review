@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+    <div class="container">
+        <a class="navbar-brand" href="#">Jayson's Music Reviews</a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
+            &#9776;
+        </button>
+        <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+            <ul class="nav navbar-nav">
+                <li class="nav-item"><a href="/api/open" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/api/open/song" class="nav-link">Songs</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<h1 class="heading-1"><span>Song Details</span></h1>
+<br>
+
+<p class="songdescrip text-center">Song Title: {{songService.selectedItem?.songTitle}}</p> 
+<p class="songdescrip text-center">Artist: {{songService.selectedItem?.artist}}</p>
+<p class="songdescrip text-center">Album: {{songService.selectedItem?.album}}</p>
+<p class="songdescrip text-center">Year: {{songService.selectedItem?.year}}</p>
+<p class="songdescrip text-center">Comment: {{songService.selectedItem?.comment}}</p>
+<p class="songdescrip text-center">Genre: {{songService.selectedItem?.genre}}</p>
+<p class="songdescrip text-center">Average Rating: {{songService.selectedItem?.avgRating}}</p>
+<p class="songdescrip text-center">Number of Reviews: {{songService.selectedItem?.numReviews}}</p>
+<p class="songdescrip text-center">Number of Ratings: {{songService.selectedItem?.numRating}}</p>
+
+<br>
+<br>
+
+
+
+<h1 class="heading-1"><span>Song Reviews</span></h1>
+
+<br>
+
+<div class="text-center"><button id="ViewMoreReviewsButton" (click)="viewMore()" class="btn btn-outline-secondary blackHov" type="submit">View More Reviews</button></div>
+
+<br>
+
+<div *ngFor="let rvw of reviewService.reviews; let i = index">
+    <div *ngIf="i == 0" class="card text-white bg-dark" style="max-width: 18rem;">
+        <div class="card-header">Submitted By: {{ rvw?.submittedBy }}</div>
+        <div class="card-body">
+            <h5 class="card-title">Rating = {{ rvw?.ratingForObject }}/5</h5>
+            <p class="card-text">Description: {{ rvw?.description }}</p>
+        </div>
+    </div>
+</div>
+
+<div id="all-others">
+    <div *ngFor="let rvw of reviewService.reviews; let i = index">
+        <div *ngIf="i != 0" class="card text-white bg-dark" style="max-width: 18rem;">
+            <div class="card-header">Submitted By: {{ rvw?.submittedBy }}</div>
+            <div class="card-body">
+                <h5 class="card-title">Rating = {{ rvw?.ratingForObject }}/5</h5>
+                <p class="card-text">Description: {{ rvw?.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+
+
